@@ -5,7 +5,7 @@ import BaseMixin from '../_util/BaseMixin';
 import PropTypes from '../_util/vue-types';
 import warning from '../_util/warning';
 import Icon from '../icon';
-import enUS from './locale/en_US';
+import zhCN from './locale/zh_CN';
 import {
   initDefaultProps,
   hasProp,
@@ -139,7 +139,7 @@ const TimePicker = {
     },
     getDefaultLocale() {
       const defaultLocale = {
-        ...enUS,
+        ...zhCN,
         ...this.$props.locale,
       };
       return defaultLocale;

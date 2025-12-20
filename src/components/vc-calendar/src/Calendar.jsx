@@ -10,7 +10,7 @@ import CalendarFooter from './calendar/CalendarFooter';
 import CalendarMixin, { getNowByCurrentStateValue } from './mixin/CalendarMixin';
 import CommonMixin from './mixin/CommonMixin';
 import DateInput from './date/DateInput';
-import enUs from './locale/en_US';
+import zhCn from './locale/zh_CN';
 import { getTimeConfig, getTodayTime, syncTime } from './util';
 import { goStartMonth, goEndMonth, goTime } from './util/toTime';
 
@@ -24,7 +24,7 @@ const getMomentObjectIfValid = date => {
 const Calendar = {
   name: 'Calendar',
   props: {
-    locale: PropTypes.object.def(enUs),
+    locale: PropTypes.object.def(zhCn),
     format: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.arrayOf(PropTypes.string),

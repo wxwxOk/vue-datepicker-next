@@ -6,11 +6,11 @@ import CalendarHeader from './calendar/CalendarHeader';
 import CalendarFooter from './calendar/CalendarFooter';
 import CalendarMixin from './mixin/CalendarMixin';
 import CommonMixin from './mixin/CommonMixin';
-import enUs from './locale/en_US';
+import zhCn from './locale/zh_CN';
 const MonthCalendar = {
   name: 'MonthCalendar',
   props: {
-    locale: PropTypes.object.def(enUs),
+    locale: PropTypes.object.def(zhCn),
     format: PropTypes.string,
     visible: PropTypes.bool.def(true),
     prefixCls: PropTypes.string.def('rc-calendar'),

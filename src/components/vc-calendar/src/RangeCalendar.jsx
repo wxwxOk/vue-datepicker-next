@@ -14,7 +14,7 @@ import TodayButton from './calendar/TodayButton';
 import OkButton from './calendar/OkButton';
 import TimePickerButton from './calendar/TimePickerButton';
 import CommonMixin from './mixin/CommonMixin';
-import enUs from './locale/en_US';
+import zhCn from './locale/zh_CN';
 import { syncTime, getTodayTime, isAllowedDate } from './util/';
 import { goTime, goStartMonth, goEndMonth, includesTime } from './util/toTime';
 
@@ -87,7 +87,7 @@ function onInputSelect(direction, value, cause) {
 
 const RangeCalendar = {
   props: {
-    locale: PropTypes.object.def(enUs),
+    locale: PropTypes.object.def(zhCn),
     visible: PropTypes.bool.def(true),
     prefixCls: PropTypes.string.def('rc-calendar'),
     dateInputPlaceholder: PropTypes.any,

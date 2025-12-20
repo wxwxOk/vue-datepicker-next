@@ -1,6 +1,7 @@
 @input-box-height: 34px;
 
 // Range picker input wrapper with Active Bar
+// 统一样式：使用与基础 DatePicker 相同的 input 变量
 .@{calendar-prefix-cls}-range-picker-input-wrapper {
   position: relative;
   display: inline-flex;
@@ -8,8 +9,15 @@
   width: 100%;
   min-width: 280px;
   height: @input-height-base;
-  padding: 0 @control-padding-horizontal;
+  // 使用与 .input() mixin 相同的 padding
+  padding: @input-padding-vertical-base @input-padding-horizontal-base;
+  // 为图标和清除按钮预留空间
+  padding-right: @input-padding-horizontal-base + 30px;
+  color: @input-color;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
   background-color: @input-bg;
+  background-image: none;
   border: @border-width-base @border-style-base @input-border-color;
   border-radius: @border-radius-base;
   transition: all 0.3s;
@@ -31,11 +39,13 @@
     background-color: transparent;
     border: none;
     box-shadow: none;
+    padding-right: @input-padding-horizontal-base;
   }
 
   // 禁用状态
   &[disabled],
   .@{calendar-prefix-cls}-picker-disabled & {
+    color: @disabled-color;
     background-color: @input-disabled-bg;
     border-color: @input-border-color;
     cursor: not-allowed;
@@ -86,11 +96,57 @@
     border-color: @success-color;
     box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@success-color, 20%);
   }
+
+  // RangePicker 内的图标样式（与基础 DatePicker 统一）
+  .@{calendar-prefix-cls}-picker-icon {
+    position: absolute;
+    top: 50%;
+    right: @input-padding-horizontal-base;
+    z-index: 1;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    color: @disabled-color;
+    font-size: @font-size-base;
+    line-height: 1;
+    transition: all 0.3s;
+    user-select: none;
+  }
+
+  // RangePicker 内的清除按钮样式（与基础 DatePicker 统一）
+  .@{calendar-prefix-cls}-picker-clear {
+    position: absolute;
+    top: 50%;
+    right: @input-padding-horizontal-base;
+    z-index: 2;
+    width: 14px;
+    height: 14px;
+    margin-top: -7px;
+    color: @disabled-color;
+    font-size: @font-size-base;
+    background: @input-bg;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+
+    &:hover {
+      color: @text-color-secondary;
+    }
+  }
+
+  // hover 时显示清除按钮
+  &:hover .@{calendar-prefix-cls}-picker-clear {
+    opacity: 1;
+    pointer-events: auto;
+  }
 }
 
 .@{calendar-prefix-cls}-range-picker-input {
-  width: 44%;
-  height: 99%;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
   text-align: center;
   background-color: transparent;
   border: 0;
@@ -128,9 +184,10 @@
 }
 
 .@{calendar-prefix-cls}-range-picker-separator {
-  display: inline-block;
-  min-width: 10px;
-  height: 100%;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
   color: @text-color-secondary;
   white-space: nowrap;
   text-align: center;

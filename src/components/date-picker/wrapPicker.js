@@ -2,7 +2,7 @@ import TimePickerPanel from '../vc-time-picker/Panel';
 import classNames from 'classnames';
 import LocaleReceiver from '../locale-provider/LocaleReceiver';
 import { generateShowHourMinuteSecond } from '../time-picker';
-import enUS from './locale/en_US';
+import zhCN from './locale/zh_CN';
 import { getOptionProps, initDefaultProps, getListeners } from '../_util/props-util';
 import { ConfigConsumerProps } from '../config-provider/configConsumerProps';
 import { checkValidate, stringToMoment, momentToString } from '../_util/moment-util';
@@ -77,7 +77,7 @@ export default function wrapPicker(Picker, props, pickerType) {
     methods: {
       getDefaultLocale() {
         const result = {
-          ...enUS,
+          ...zhCN,
           ...this.locale,
         };
         result.lang = {
