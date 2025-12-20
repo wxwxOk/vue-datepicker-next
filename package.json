@@ -1,6 +1,6 @@
 {
   "name": "@wangxinowo/vue-datepicker-next",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A powerful Vue 2.x DatePicker component based on Ant Design Vue",
   "main": "dist/vue-datepicker-next.min.js",
   "module": "dist/vue-datepicker-next.min.js",

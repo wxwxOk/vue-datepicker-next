@@ -6,6 +6,86 @@
   display: inline-flex;
   align-items: center;
   width: 100%;
+  min-width: 280px;
+  height: @input-height-base;
+  padding: 0 @control-padding-horizontal;
+  background-color: @input-bg;
+  border: @border-width-base @border-style-base @input-border-color;
+  border-radius: @border-radius-base;
+  transition: all 0.3s;
+
+  &:hover {
+    border-color: @input-hover-border-color;
+  }
+
+  // 聚焦状态
+  .@{calendar-prefix-cls}-picker-focused &,
+  .@{calendar-prefix-cls}-picker:focus-within & {
+    border-color: @primary-color;
+    box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@primary-color, 20%);
+    outline: 0;
+  }
+
+  // 无边框模式
+  .@{calendar-prefix-cls}-picker-borderless & {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  // 禁用状态
+  &[disabled],
+  .@{calendar-prefix-cls}-picker-disabled & {
+    background-color: @input-disabled-bg;
+    border-color: @input-border-color;
+    cursor: not-allowed;
+    opacity: 1;
+  }
+
+  // Error 状态
+  .@{calendar-prefix-cls}-picker-status-error & {
+    border-color: @error-color;
+
+    &:hover {
+      border-color: @error-color;
+    }
+  }
+
+  .@{calendar-prefix-cls}-picker-status-error.@{calendar-prefix-cls}-picker-focused &,
+  .@{calendar-prefix-cls}-picker-status-error:focus-within & {
+    border-color: @error-color;
+    box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@error-color, 20%);
+  }
+
+  // Warning 状态
+  .@{calendar-prefix-cls}-picker-status-warning & {
+    border-color: @warning-color;
+
+    &:hover {
+      border-color: @warning-color;
+    }
+  }
+
+  .@{calendar-prefix-cls}-picker-status-warning.@{calendar-prefix-cls}-picker-focused &,
+  .@{calendar-prefix-cls}-picker-status-warning:focus-within & {
+    border-color: @warning-color;
+    box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@warning-color, 20%);
+  }
+
+  // Success 状态
+  .@{calendar-prefix-cls}-picker-status-success & {
+    border-color: @success-color;
+
+    &:hover {
+      border-color: @success-color;
+    }
+  }
+
+  .@{calendar-prefix-cls}-picker-status-success.@{calendar-prefix-cls}-picker-focused &,
+  .@{calendar-prefix-cls}-picker-status-success:focus-within & {
+    border-color: @success-color;
+    box-shadow: @input-outline-offset @outline-blur-size @outline-width fade(@success-color, 20%);
+  }
 }
 
 .@{calendar-prefix-cls}-range-picker-input {
