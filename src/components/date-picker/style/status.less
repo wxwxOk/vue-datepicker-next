@@ -1,0 +1,94 @@
+// Status Styles for DatePicker
+// 日期选择器状态样式
+
+// Status colors mixin - using fade for shadow color since outline variables don't exist
+.calendar-picker-status-color(@status-color) {
+  border-color: @status-color;
+
+  &:hover {
+    border-color: @status-color;
+  }
+
+  &:focus,
+  &.@{calendar-prefix-cls}-picker-focused {
+    border-color: @status-color;
+    box-shadow: 0 0 0 @outline-width fade(@status-color, 20%);
+    outline: 0;
+  }
+}
+
+.@{calendar-prefix-cls}-picker {
+  // Error status
+  &-status-error {
+    .@{calendar-prefix-cls}-picker-input {
+      .calendar-picker-status-color(@error-color);
+    }
+  }
+
+  // Warning status
+  &-status-warning {
+    .@{calendar-prefix-cls}-picker-input {
+      .calendar-picker-status-color(@warning-color);
+    }
+  }
+
+  // Success status
+  &-status-success {
+    .@{calendar-prefix-cls}-picker-input {
+      .calendar-picker-status-color(@success-color);
+    }
+  }
+
+  // Validating status
+  &-status-validating {
+    .@{calendar-prefix-cls}-picker-input {
+      .calendar-picker-status-color(@primary-color);
+    }
+  }
+
+  // Has feedback icon
+  &-has-feedback {
+    .@{calendar-prefix-cls}-picker-input {
+      padding-right: 30px;
+    }
+  }
+
+  // Borderless style
+  &-borderless {
+    .@{calendar-prefix-cls}-picker-input {
+      border-color: transparent !important;
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+}
+
+// Range picker specific status styles
+// 范围选择器特定状态样式
+.@{calendar-prefix-cls}-range-picker {
+  &.@{calendar-prefix-cls}-picker-status-error {
+    background-color: transparent;
+
+    .@{calendar-prefix-cls}-range-picker-input {
+      border-color: @error-color;
+
+      &:focus {
+        border-color: @error-color;
+        box-shadow: 0 0 0 @outline-width fade(@error-color, 20%);
+      }
+    }
+  }
+
+  &.@{calendar-prefix-cls}-picker-status-warning {
+    background-color: transparent;
+
+    .@{calendar-prefix-cls}-range-picker-input {
+      border-color: @warning-color;
+
+      &:focus {
+        border-color: @warning-color;
+        box-shadow: 0 0 0 @outline-width fade(@warning-color, 20%);
+      }
+    }
+  }
+}

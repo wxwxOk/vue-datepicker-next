@@ -1,0 +1,84 @@
+{
+  "name": "@wangxinowo/vue-datepicker-next",
+  "version": "1.0.0",
+  "description": "A powerful Vue 2.x DatePicker component based on Ant Design Vue",
+  "main": "dist/vue-datepicker-next.min.js",
+  "module": "dist/vue-datepicker-next.min.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "types"
+  ],
+  "scripts": {
+    "build": "npm run build:dist",
+    "build:dist": "webpack --config webpack.config.js --mode production",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "vue",
+    "datepicker",
+    "date-picker",
+    "rangepicker",
+    "calendar",
+    "ant-design"
+  ],
+  "author": "wangxinowo",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wangxinowo/vue-datepicker-next.git"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.0"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^2.0.0",
+    "add-dom-event-listener": "^1.1.0",
+    "array-tree-filter": "^2.1.0",
+    "classnames": "^2.2.5",
+    "component-classes": "^1.2.6",
+    "dayjs": "^1.11.19",
+    "dom-align": "^1.10.4",
+    "dom-scroll-into-view": "^2.0.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.21.0",
+    "omit.js": "^2.0.2",
+    "raf": "^3.4.1",
+    "resize-observer-polyfill": "^1.5.1",
+    "shallowequal": "^1.0.2",
+    "vue-ref": "^2.0.0",
+    "warning": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.27.1",
+    "@vue/babel-helper-vue-jsx-merge-props": "^1.4.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-helper-vue-jsx-merge-props": "^2.0.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-syntax-jsx": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-plugin-transform-vue-jsx": "^3.7.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-runtime": "^6.26.0",
+    "cross-env": "^7.0.0",
+    "css-loader": "^3.0.0",
+    "ignore-loader": "^0.1.2",
+    "less": "^3.9.0",
+    "less-loader": "^6.0.0",
+    "mini-css-extract-plugin": "^0.10.0",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.6.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
+  },
+  "sideEffects": [
+    "*.less",
+    "*.css",
+    "**/style/*"
+  ]
+}

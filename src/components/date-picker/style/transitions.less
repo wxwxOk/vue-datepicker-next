@@ -1,0 +1,176 @@
+// Transitions and Animations for DatePicker
+// 日期选择器动画和过渡效果
+
+// Animation timing functions
+@ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+@ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+
+// Picker input transitions
+.@{calendar-prefix-cls}-picker {
+  // Focus ring transition
+  &-input {
+    transition: border-color 0.3s @ease-out-quint, box-shadow 0.3s @ease-out-quint;
+  }
+
+  // Clear icon fade
+  &-clear {
+    transition: color 0.3s, opacity 0.3s;
+  }
+
+  // Icon transition
+  &-icon {
+    transition: color 0.3s;
+  }
+}
+
+// Calendar panel transitions
+.@{calendar-prefix-cls} {
+  // Date cell hover transition
+  &-date {
+    transition: background 0.2s @ease-out-quint, color 0.2s @ease-out-quint,
+      border-color 0.2s @ease-out-quint;
+  }
+
+  // Cell transitions
+  &-cell {
+    transition: background 0.2s;
+  }
+
+  // In-range highlight transition
+  &-in-range-cell {
+    &::before {
+      transition: background 0.2s @ease-out-quint;
+    }
+  }
+
+  // Header button transitions
+  &-header {
+    a {
+      transition: color 0.3s;
+    }
+  }
+
+  // Panel slide transition
+  &-body {
+    transition: opacity 0.3s;
+  }
+}
+
+// Range picker specific transitions
+.@{calendar-prefix-cls}-range {
+  // Panel transitions
+  &-part {
+    transition: opacity 0.3s;
+  }
+
+  // Time picker overlay
+  .@{calendar-timepicker-prefix-cls} {
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+}
+
+// Active bar animation
+.@{calendar-prefix-cls}-range-picker-active-bar {
+  transition: left 0.3s @ease-in-out-circ, width 0.3s @ease-in-out-circ, opacity 0.2s;
+}
+
+// Input focus animations
+.@{calendar-prefix-cls}-range-picker-input {
+  transition: color 0.3s, background-color 0.3s;
+
+  &-active {
+    animation: rangePickerInputPulse 0.3s @ease-out-quint;
+  }
+}
+
+// Preset panel transitions
+.@{calendar-prefix-cls}-presets {
+  &-item {
+    transition: color 0.2s, background-color 0.2s;
+  }
+}
+
+// Status transitions
+.@{calendar-prefix-cls}-picker-status-error,
+.@{calendar-prefix-cls}-picker-status-warning,
+.@{calendar-prefix-cls}-picker-status-success {
+  .@{calendar-prefix-cls}-picker-input {
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+}
+
+// Popup slide animations
+.@{calendar-prefix-cls}-picker-container {
+  // Slide up enter
+  &.slide-up-enter,
+  &.slide-up-appear {
+    animation-duration: 0.3s;
+    animation-fill-mode: both;
+    animation-timing-function: @ease-out-quint;
+    opacity: 0;
+    animation-play-state: paused;
+  }
+
+  &.slide-up-enter.slide-up-enter-active,
+  &.slide-up-appear.slide-up-appear-active {
+    animation-play-state: running;
+  }
+
+  // Slide up leave
+  &.slide-up-leave {
+    animation-duration: 0.2s;
+    animation-fill-mode: both;
+    animation-timing-function: @ease-in-out-circ;
+    animation-play-state: paused;
+  }
+
+  &.slide-up-leave.slide-up-leave-active {
+    animation-play-state: running;
+  }
+}
+
+// Keyframe animations
+@keyframes rangePickerInputPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Calendar fade in
+@keyframes calendarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Selected date pulse
+@keyframes selectedDatePulse {
+  0% {
+    box-shadow: 0 0 0 0 fade(@primary-color, 40%);
+  }
+  70% {
+    box-shadow: 0 0 0 6px fade(@primary-color, 0%);
+  }
+  100% {
+    box-shadow: 0 0 0 0 fade(@primary-color, 0%);
+  }
+}
+
+// Apply pulse animation to newly selected dates
+.@{calendar-prefix-cls}-selected-start-date,
+.@{calendar-prefix-cls}-selected-end-date {
+  .@{calendar-prefix-cls}-date {
+    animation: selectedDatePulse 0.4s @ease-out-quint;
+  }
+}

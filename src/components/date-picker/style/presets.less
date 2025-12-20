@@ -1,0 +1,69 @@
+// Presets Panel Styles for RangePicker
+// 预设日期范围面板样式
+
+.@{calendar-prefix-cls}-presets {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: @padding-xs 0;
+  border-right: @border-width-base @border-style-base @border-color-split;
+  background: @component-background;
+
+  &-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &-item {
+    padding: @padding-xs @padding-sm;
+    color: @text-color;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      color: @primary-color;
+      background: @item-hover-bg;
+    }
+
+    &-selected {
+      color: @primary-color;
+      font-weight: 500;
+      background: @primary-1;
+    }
+  }
+}
+
+// Range picker with presets layout
+// 带预设的日期范围选择器布局
+.@{calendar-prefix-cls}-range-with-presets {
+  .@{calendar-prefix-cls}-range-part {
+    display: flex;
+  }
+}
+
+// Range picker popup with presets
+// 带预设的弹出层布局
+.@{calendar-prefix-cls}-picker-container {
+  .@{calendar-prefix-cls}-range-with-presets {
+    display: flex;
+    align-items: stretch;
+  }
+}
+
+// Footer quick selector (legacy support for ranges prop)
+// 底部快捷选择器（兼容旧的 ranges 属性）
+.@{calendar-prefix-cls}-range-quick-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: @padding-xs;
+  padding: @padding-xs @padding-sm;
+  border-top: @border-width-base @border-style-base @border-color-split;
+
+  a,
+  .@{ant-prefix}-tag {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "modules": false
+    }]
+  ],
+  "plugins": [
+    "transform-vue-jsx"
+  ],
+  "env": {
+    "es": {
+      "presets": [
+        ["@babel/preset-env", {
+          "modules": false
+        }]
+      ]
+    },
+    "lib": {
+      "presets": [
+        ["@babel/preset-env", {
+          "modules": "commonjs"
+        }]
+      ]
+    }
+  }
+}
