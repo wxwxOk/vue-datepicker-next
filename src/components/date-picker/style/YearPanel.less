@@ -91,3 +91,18 @@
     user-select: none;
   }
 }
+
+// 范围选择的起始/结束单元格样式
+.@{calendar-prefix-cls}-year-panel-selected-start-cell,
+.@{calendar-prefix-cls}-year-panel-selected-end-cell {
+  .@{calendar-prefix-cls}-year-panel-year {
+    color: @text-color-inverse;
+    background: @primary-color;
+    border-radius: @border-radius-sm;
+
+    &:hover {
+      color: @text-color-inverse;
+      background: @primary-5;
+    }
+  }
+}

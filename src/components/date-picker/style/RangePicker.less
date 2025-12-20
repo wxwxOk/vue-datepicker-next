@@ -331,6 +331,49 @@
     }
   }
 
+  // 年份面板和月份面板的范围选中背景样式
+  .@{calendar-prefix-cls}-year-panel-cell.@{calendar-prefix-cls}-in-range-cell,
+  .@{calendar-prefix-cls}-month-panel-cell.@{calendar-prefix-cls}-in-range-cell {
+    position: relative;
+    border-radius: 0;
+
+    > a {
+      position: relative;
+      z-index: 1;
+    }
+
+    &::before {
+      position: absolute;
+      top: 4px;
+      right: 0;
+      bottom: 4px;
+      left: 0;
+      display: block;
+      background: @item-active-bg;
+      border: 0;
+      border-radius: 0;
+      content: '';
+    }
+  }
+
+  // 年份/月份范围选择的起始单元格圆角
+  .@{calendar-prefix-cls}-year-panel-selected-start-cell.@{calendar-prefix-cls}-in-range-cell,
+  .@{calendar-prefix-cls}-month-panel-selected-start-cell.@{calendar-prefix-cls}-in-range-cell {
+    &::before {
+      border-top-left-radius: @border-radius-sm;
+      border-bottom-left-radius: @border-radius-sm;
+    }
+  }
+
+  // 年份/月份范围选择的结束单元格圆角
+  .@{calendar-prefix-cls}-year-panel-selected-end-cell.@{calendar-prefix-cls}-in-range-cell,
+  .@{calendar-prefix-cls}-month-panel-selected-end-cell.@{calendar-prefix-cls}-in-range-cell {
+    &::before {
+      border-top-right-radius: @border-radius-sm;
+      border-bottom-right-radius: @border-radius-sm;
+    }
+  }
+
   // 悬停高亮效果 - 范围起始单元格
   .@{calendar-prefix-cls}-selected-start-date,
   .@{calendar-prefix-cls}-selected-end-date {

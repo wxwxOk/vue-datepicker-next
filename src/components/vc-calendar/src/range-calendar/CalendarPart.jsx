@@ -128,7 +128,10 @@ const CalendarPart = {
         enableNext,
         enablePrev,
         disabledMonth,
-        selectedValue: selectedValue[index],
+        // 传递完整的 selectedValue 数组，让 YearPanel/MonthPanel 支持范围选中效果
+        selectedValue: selectedValue,
+        // 保留 direction 信息，用于判断是左面板还是右面板
+        direction,
       },
       on: {
         valueChange,

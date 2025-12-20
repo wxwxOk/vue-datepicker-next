@@ -22,13 +22,31 @@ function chooseYear(year) {
   this.__emit('select', value);
 }
 
+// 判断是否为范围选择模式
+function isRangeMode(selectedValue) {
+  return Array.isArray(selectedValue);
+}
+
+// 获取范围开始年份
+function getRangeStartYear(selectedValue) {
+  if (!isRangeMode(selectedValue)) return null;
+  return selectedValue[0] ? selectedValue[0].year() : null;
+}
+
+// 获取范围结束年份
+function getRangeEndYear(selectedValue) {
+  if (!isRangeMode(selectedValue)) return null;
+  return selectedValue[1] ? selectedValue[1].year() : null;
+}
+
 export default {
   mixins: [BaseMixin],
   props: {
     rootPrefixCls: PropTypes.string,
     value: PropTypes.object,
     defaultValue: PropTypes.object,
-    selectedValue: PropTypes.object,
+    // 支持单个值或数组（范围选择）
+    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     locale: PropTypes.object,
     renderFooter: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -76,8 +94,15 @@ export default {
     const decadePanelShow = getListeners(this).decadePanelShow || noop;
     const years = this.years();
     const currentYear = value.year();
-    // 只有当 selectedValue 存在时才显示选中状态
-    const selectedYear = selectedValue ? selectedValue.year() : null;
+
+    // 判断是范围模式还是单值模式
+    const rangeMode = isRangeMode(selectedValue);
+    const rangeStartYear = getRangeStartYear(selectedValue);
+    const rangeEndYear = getRangeEndYear(selectedValue);
+
+    // 单值模式：只有当 selectedValue 存在时才显示选中状态
+    const selectedYear = !rangeMode && selectedValue ? selectedValue.year() : null;
+
     const startYear = parseInt(currentYear / 10, 10) * 10;
     const endYear = startYear + 9;
     const prefixCls = `${this.rootPrefixCls}-year-panel`;
@@ -91,10 +116,29 @@ export default {
           testValue.year(yearData.year);
           disabled = disabledDate(testValue);
         }
+
+        // 判断年份是否在当前十年范围内（不是上一十年或下一十年的预览）
+        const isInCurrentDecade = yearData.year >= startYear && yearData.year <= endYear;
+
+        // 判断是否为范围起始/结束/中间，只在当前十年范围内应用
+        const isRangeStart = rangeMode && rangeStartYear !== null && yearData.year === rangeStartYear && isInCurrentDecade;
+        const isRangeEnd = rangeMode && rangeEndYear !== null && yearData.year === rangeEndYear && isInCurrentDecade;
+        const isInRange = rangeMode &&
+          rangeStartYear !== null &&
+          rangeEndYear !== null &&
+          yearData.year > rangeStartYear &&
+          yearData.year < rangeEndYear &&
+          isInCurrentDecade;
+
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
           [`${prefixCls}-cell-disabled`]: disabled,
+          // 单值模式的选中状态
           [`${prefixCls}-selected-cell`]: selectedYear !== null && yearData.year === selectedYear,
+          // 范围模式的选中状态
+          [`${prefixCls}-selected-start-cell`]: isRangeStart,
+          [`${prefixCls}-selected-end-cell`]: isRangeEnd,
+          [`${this.rootPrefixCls}-in-range-cell`]: isInRange || isRangeStart || isRangeEnd,
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
         };

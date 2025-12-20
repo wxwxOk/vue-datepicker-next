@@ -84,3 +84,18 @@
     cursor: pointer;
   }
 }
+
+// 范围选择的起始/结束单元格样式
+.@{calendar-prefix-cls}-month-panel-selected-start-cell,
+.@{calendar-prefix-cls}-month-panel-selected-end-cell {
+  .@{calendar-prefix-cls}-month-panel-month {
+    color: @text-color-inverse;
+    background: @primary-color;
+    border-radius: @border-radius-sm;
+
+    &:hover {
+      color: @text-color-inverse;
+      background: @primary-5;
+    }
+  }
+}

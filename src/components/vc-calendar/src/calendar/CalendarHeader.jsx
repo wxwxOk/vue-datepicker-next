@@ -35,10 +35,13 @@ const CalendarHeader = {
     enableNext: PropTypes.any.def(1),
     disabledMonth: PropTypes.func,
     mode: PropTypes.any,
-    selectedValue: PropTypes.object,
+    // 支持数组形式，用于范围选择器
+    selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     monthCellRender: PropTypes.func,
     monthCellContentRender: PropTypes.func,
     renderFooter: PropTypes.func,
+    // 用于范围选择器，标识是左面板还是右面板
+    direction: PropTypes.string,
   },
   data() {
     this.nextMonth = goMonth.bind(this, 1);

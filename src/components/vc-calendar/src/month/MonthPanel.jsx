@@ -15,7 +15,8 @@ const MonthPanel = {
   props: {
     value: PropTypes.any,
     defaultValue: PropTypes.any,
-    selectedValue: PropTypes.any,
+    // 支持单个值或数组（范围选择）
+    selectedValue: PropTypes.oneOfType([PropTypes.any, PropTypes.array]),
     cellRender: PropTypes.any,
     contentRender: PropTypes.any,
     locale: PropTypes.any,
