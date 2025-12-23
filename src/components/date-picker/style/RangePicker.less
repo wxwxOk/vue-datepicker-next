@@ -307,7 +307,7 @@
   .@{calendar-prefix-cls}-decade-panel-table,
   .@{calendar-prefix-cls}-year-panel-table,
   .@{calendar-prefix-cls}-month-panel-table {
-    height: 208px;
+    height: auto;
   }
 
   .@{calendar-prefix-cls}-in-range-cell {
@@ -371,6 +371,14 @@
     &::before {
       border-top-right-radius: @border-radius-sm;
       border-bottom-right-radius: @border-radius-sm;
+    }
+  }
+
+  // 年份/月份 hover 预览范围样式
+  .@{calendar-prefix-cls}-year-panel-cell.@{calendar-prefix-cls}-in-hover-range-cell,
+  .@{calendar-prefix-cls}-month-panel-cell.@{calendar-prefix-cls}-in-hover-range-cell {
+    &::before {
+      background: @primary-2;
     }
   }
 

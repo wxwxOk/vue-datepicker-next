@@ -37,6 +37,8 @@ const CalendarHeader = {
     mode: PropTypes.any,
     // 支持数组形式，用于范围选择器
     selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    // hover 值，用于范围选择时的预览效果
+    hoverValue: PropTypes.array.def([]),
     monthCellRender: PropTypes.func,
     monthCellContentRender: PropTypes.func,
     renderFooter: PropTypes.func,
@@ -172,7 +174,11 @@ const CalendarHeader = {
       disabledMonth,
       renderFooter,
       selectedValue,
+      hoverValue,
     } = props;
+
+    const yearHover = getListeners(this).yearHover || noop;
+    const monthHover = getListeners(this).monthHover || noop;
 
     let panel = null;
     if (mode === 'month') {
@@ -181,9 +187,11 @@ const CalendarHeader = {
           locale={locale}
           value={value}
           selectedValue={selectedValue}
+          hoverValue={hoverValue}
           rootPrefixCls={prefixCls}
           onSelect={this.onMonthSelect}
           onYearPanelShow={() => this.showYearPanel('month')}
+          onMonthHover={monthHover}
           disabledDate={disabledMonth}
           cellRender={props.monthCellRender}
           contentRender={props.monthCellContentRender}
@@ -198,10 +206,12 @@ const CalendarHeader = {
           locale={locale}
           value={value}
           selectedValue={selectedValue}
+          hoverValue={hoverValue}
           rootPrefixCls={prefixCls}
           onSelect={this.onYearSelect}
           onValueChange={this.onYearValueChange}
           onDecadePanelShow={this.showDecadePanel}
+          onYearHover={yearHover}
           renderFooter={renderFooter}
           disabledDate={disabledMonth}
         />

@@ -17,6 +17,8 @@ const MonthPanel = {
     defaultValue: PropTypes.any,
     // 支持单个值或数组（范围选择）
     selectedValue: PropTypes.oneOfType([PropTypes.any, PropTypes.array]),
+    // hover 值，用于范围选择时的预览效果
+    hoverValue: PropTypes.array.def([]),
     cellRender: PropTypes.any,
     contentRender: PropTypes.any,
     locale: PropTypes.any,
@@ -69,9 +71,11 @@ const MonthPanel = {
       disabledDate,
       renderFooter,
       selectedValue,
+      hoverValue,
     } = this;
     const year = sValue.year();
     const prefixCls = `${rootPrefixCls}-month-panel`;
+    const monthHover = getListeners(this).monthHover || noop;
 
     const footer = renderFooter && renderFooter('month');
     return (
@@ -106,9 +110,11 @@ const MonthPanel = {
             <MonthTable
               disabledDate={disabledDate}
               onSelect={this.setAndSelectValue}
+              onMonthHover={monthHover}
               locale={locale}
               value={sValue}
               selectedValue={selectedValue}
+              hoverValue={hoverValue}
               cellRender={cellRender}
               contentRender={contentRender}
               prefixCls={prefixCls}

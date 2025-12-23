@@ -4,6 +4,7 @@
  */
 
 import DatePicker from './components/date-picker';
+import antDirective from './components/_util/antDirective';
 import './components/style/index.less';
 import './components/date-picker/style/index.less';
 
@@ -16,6 +17,9 @@ export { default as dayjsGenerateConfig } from './components/date-picker/generat
 
 // 安装函数
 const install = function(Vue) {
+  // 注册所有指令 (ant-ref, ant-input, ant-decorator, ant-portal)
+  Vue.use(antDirective);
+
   Vue.component(DatePicker.name, DatePicker);
   Vue.component('a-date-picker', DatePicker);
   Vue.component('a-range-picker', RangePicker);

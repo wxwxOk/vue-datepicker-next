@@ -364,6 +364,76 @@ const RangeCalendar = {
       return hoverValue;
     },
 
+    // 年份 hover 处理（类似于日期 hover 逻辑）
+    onYearHover(value) {
+      let hoverValue = [];
+      const { sSelectedValue, firstSelectedValue, type } = this;
+
+      // 比较年份
+      const compareYear = (v1, v2) => {
+        return v1.year() - v2.year();
+      };
+
+      if (type === 'start' && sSelectedValue[1]) {
+        // 选择开始年份时：如果 hover 值小于结束值，显示范围预览
+        hoverValue =
+          compareYear(value, sSelectedValue[1]) < 0 ? [value, sSelectedValue[1]] : [value];
+      } else if (type === 'end' && sSelectedValue[0]) {
+        // 选择结束年份时：如果 hover 值大于开始值，显示范围预览
+        hoverValue = compareYear(value, sSelectedValue[0]) > 0 ? [sSelectedValue[0], value] : [];
+      } else {
+        // both 模式
+        if (!firstSelectedValue) {
+          if (this.sHoverValue.length) {
+            this.setState({ sHoverValue: [] });
+          }
+          return hoverValue;
+        }
+        hoverValue =
+          compareYear(value, firstSelectedValue) < 0
+            ? [value, firstSelectedValue]
+            : [firstSelectedValue, value];
+      }
+      this.fireHoverValueChange(hoverValue);
+      return hoverValue;
+    },
+
+    // 月份 hover 处理（类似于日期 hover 逻辑）
+    onMonthHover(value) {
+      let hoverValue = [];
+      const { sSelectedValue, firstSelectedValue, type } = this;
+
+      // 比较年月
+      const compareMonth = (v1, v2) => {
+        const yearDiff = v1.year() - v2.year();
+        if (yearDiff !== 0) return yearDiff;
+        return v1.month() - v2.month();
+      };
+
+      if (type === 'start' && sSelectedValue[1]) {
+        // 选择开始月份时：如果 hover 值小于结束值，显示范围预览
+        hoverValue =
+          compareMonth(value, sSelectedValue[1]) < 0 ? [value, sSelectedValue[1]] : [value];
+      } else if (type === 'end' && sSelectedValue[0]) {
+        // 选择结束月份时：如果 hover 值大于开始值，显示范围预览
+        hoverValue = compareMonth(value, sSelectedValue[0]) > 0 ? [sSelectedValue[0], value] : [];
+      } else {
+        // both 模式
+        if (!firstSelectedValue) {
+          if (this.sHoverValue.length) {
+            this.setState({ sHoverValue: [] });
+          }
+          return hoverValue;
+        }
+        hoverValue =
+          compareMonth(value, firstSelectedValue) < 0
+            ? [value, firstSelectedValue]
+            : [firstSelectedValue, value];
+      }
+      this.fireHoverValueChange(hoverValue);
+      return hoverValue;
+    },
+
     onToday() {
       const startValue = getTodayTime(this.sValue[0]);
       const endValue = startValue.clone().add(1, 'months');
@@ -921,6 +991,8 @@ const RangeCalendar = {
         inputSelect: this.onStartInputSelect,
         valueChange: this.onStartValueChange,
         panelChange: this.onStartPanelChange,
+        yearHover: this.onYearHover,
+        monthHover: this.onMonthHover,
       },
     });
     const rightPartProps = mergeProps(baseProps, newProps, {
@@ -946,6 +1018,8 @@ const RangeCalendar = {
         inputSelect: this.onEndInputSelect,
         valueChange: this.onEndValueChange,
         panelChange: this.onEndPanelChange,
+        yearHover: this.onYearHover,
+        monthHover: this.onMonthHover,
       },
     });
     let TodayButtonNode = null;

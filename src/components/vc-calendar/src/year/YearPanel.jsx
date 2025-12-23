@@ -28,15 +28,15 @@ function isRangeMode(selectedValue) {
 }
 
 // 获取范围开始年份
-function getRangeStartYear(selectedValue) {
-  if (!isRangeMode(selectedValue)) return null;
-  return selectedValue[0] ? selectedValue[0].year() : null;
+function getRangeStartYear(value) {
+  if (!isRangeMode(value)) return null;
+  return value[0] ? value[0].year() : null;
 }
 
 // 获取范围结束年份
-function getRangeEndYear(selectedValue) {
-  if (!isRangeMode(selectedValue)) return null;
-  return selectedValue[1] ? selectedValue[1].year() : null;
+function getRangeEndYear(value) {
+  if (!isRangeMode(value)) return null;
+  return value[1] ? value[1].year() : null;
 }
 
 export default {
@@ -47,6 +47,8 @@ export default {
     defaultValue: PropTypes.object,
     // 支持单个值或数组（范围选择）
     selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    // hover 值，用于范围选择时的预览效果
+    hoverValue: PropTypes.array.def([]),
     locale: PropTypes.object,
     renderFooter: PropTypes.func,
     disabledDate: PropTypes.func,
@@ -90,15 +92,23 @@ export default {
 
   render() {
     const { sValue: value, locale, renderFooter, $props } = this;
-    const { selectedValue } = $props;
+    const { selectedValue, hoverValue } = $props;
     const decadePanelShow = getListeners(this).decadePanelShow || noop;
+    const yearHover = getListeners(this).yearHover || noop;
     const years = this.years();
     const currentYear = value.year();
 
     // 判断是范围模式还是单值模式
     const rangeMode = isRangeMode(selectedValue);
-    const rangeStartYear = getRangeStartYear(selectedValue);
-    const rangeEndYear = getRangeEndYear(selectedValue);
+
+    // 使用 hoverValue 进行范围预览（如果存在的话）
+    const rangeValue = hoverValue && hoverValue.length ? hoverValue : selectedValue;
+    const rangeStartYear = getRangeStartYear(rangeValue);
+    const rangeEndYear = getRangeEndYear(rangeValue);
+
+    // 选中值（用于显示实际选中的起始和结束）
+    const selectedStartYear = getRangeStartYear(selectedValue);
+    const selectedEndYear = getRangeEndYear(selectedValue);
 
     // 单值模式：只有当 selectedValue 存在时才显示选中状态
     const selectedYear = !rangeMode && selectedValue ? selectedValue.year() : null;
@@ -120,7 +130,11 @@ export default {
         // 判断年份是否在当前十年范围内（不是上一十年或下一十年的预览）
         const isInCurrentDecade = yearData.year >= startYear && yearData.year <= endYear;
 
-        // 判断是否为范围起始/结束/中间，只在当前十年范围内应用
+        // 判断是否为选中的起始/结束（使用实际选中值，而非 hover 值）
+        const isSelectedStart = rangeMode && selectedStartYear !== null && yearData.year === selectedStartYear && isInCurrentDecade;
+        const isSelectedEnd = rangeMode && selectedEndYear !== null && yearData.year === selectedEndYear && isInCurrentDecade;
+
+        // 判断是否为范围起始/结束/中间（使用 rangeValue，可能是 hover 值）
         const isRangeStart = rangeMode && rangeStartYear !== null && yearData.year === rangeStartYear && isInCurrentDecade;
         const isRangeEnd = rangeMode && rangeEndYear !== null && yearData.year === rangeEndYear && isInCurrentDecade;
         const isInRange = rangeMode &&
@@ -130,15 +144,21 @@ export default {
           yearData.year < rangeEndYear &&
           isInCurrentDecade;
 
+        // 判断是否为 hover 预览状态（有 hoverValue 时）
+        const isHoverRange = hoverValue && hoverValue.length > 0;
+
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
           [`${prefixCls}-cell-disabled`]: disabled,
           // 单值模式的选中状态
           [`${prefixCls}-selected-cell`]: selectedYear !== null && yearData.year === selectedYear,
-          // 范围模式的选中状态
-          [`${prefixCls}-selected-start-cell`]: isRangeStart,
-          [`${prefixCls}-selected-end-cell`]: isRangeEnd,
+          // 范围模式的选中状态（实际选中）
+          [`${prefixCls}-selected-start-cell`]: isSelectedStart,
+          [`${prefixCls}-selected-end-cell`]: isSelectedEnd,
+          // 范围背景（包括 hover 预览）
           [`${this.rootPrefixCls}-in-range-cell`]: isInRange || isRangeStart || isRangeEnd,
+          // hover 预览状态（仅当有 hoverValue 时才添加 hover 样式类）
+          [`${this.rootPrefixCls}-in-hover-range-cell`]: isHoverRange && (isInRange || isRangeStart || isRangeEnd),
           [`${prefixCls}-last-decade-cell`]: yearData.year < startYear,
           [`${prefixCls}-next-decade-cell`]: yearData.year > endYear,
         };
@@ -150,12 +170,23 @@ export default {
         } else {
           clickHandler = chooseYear.bind(this, yearData.year);
         }
+
+        // hover 处理函数
+        const hoverHandler = () => {
+          if (disabled || yearData.year < startYear || yearData.year > endYear) {
+            return;
+          }
+          const hoverTime = value.clone().year(yearData.year);
+          yearHover(hoverTime);
+        };
+
         return (
           <td
             role="gridcell"
             title={yearData.title}
             key={yearData.content}
             onClick={disabled ? noop : clickHandler}
+            onMouseenter={hoverHandler}
             class={classNameMap}
           >
             <a class={`${prefixCls}-year`}>{yearData.content}</a>

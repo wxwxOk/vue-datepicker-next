@@ -70,6 +70,8 @@ const CalendarPart = {
       panelChange = noop,
       select = noop,
       dayHover = noop,
+      yearHover = noop,
+      monthHover = noop,
     } = getListeners(this);
     const shouldShowTimePicker = showTimePicker && timePicker;
     const disabledTimeConfig =
@@ -130,12 +132,16 @@ const CalendarPart = {
         disabledMonth,
         // 传递完整的 selectedValue 数组，让 YearPanel/MonthPanel 支持范围选中效果
         selectedValue: selectedValue,
+        // 传递 hoverValue，用于范围预览
+        hoverValue: hoverValue,
         // 保留 direction 信息，用于判断是左面板还是右面板
         direction,
       },
       on: {
         valueChange,
         panelChange,
+        yearHover,
+        monthHover,
       },
     };
     const tableProps = {

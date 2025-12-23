@@ -53,8 +53,8 @@
     <div class="demo-section">
       <h2>RangePicker 弹出位置 (placement)</h2>
       <div class="placement-demos">
-        <a-range-picker placement="topLeft" placeholder="['topLeft', '']" />
-        <a-range-picker placement="topRight" placeholder="['topRight', '']" />
+        <a-range-picker placement="topLeft" :placeholder="['topLeft', '']" />
+        <a-range-picker placement="topRight" :placeholder="['topRight', '']" />
       </div>
     </div>
 

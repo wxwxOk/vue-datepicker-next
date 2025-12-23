@@ -13,20 +13,20 @@ function isRangeMode(selectedValue) {
 }
 
 // 获取范围开始的年月
-function getRangeStart(selectedValue) {
-  if (!isRangeMode(selectedValue) || !selectedValue[0]) return null;
+function getRangeStart(value) {
+  if (!isRangeMode(value) || !value[0]) return null;
   return {
-    year: selectedValue[0].year(),
-    month: selectedValue[0].month(),
+    year: value[0].year(),
+    month: value[0].month(),
   };
 }
 
 // 获取范围结束的年月
-function getRangeEnd(selectedValue) {
-  if (!isRangeMode(selectedValue) || !selectedValue[1]) return null;
+function getRangeEnd(value) {
+  if (!isRangeMode(value) || !value[1]) return null;
   return {
-    year: selectedValue[1].year(),
-    month: selectedValue[1].month(),
+    year: value[1].year(),
+    month: value[1].month(),
   };
 }
 
@@ -45,6 +45,8 @@ const MonthTable = {
     value: PropTypes.object,
     // 支持单个值或数组（范围选择）
     selectedValue: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+    // hover 值，用于范围选择时的预览效果
+    hoverValue: PropTypes.array.def([]),
     locale: PropTypes.any,
     contentRender: PropTypes.any,
     disabledDate: PropTypes.func,
@@ -98,15 +100,23 @@ const MonthTable = {
   render() {
     const props = this.$props;
     const value = this.sValue;
-    const { selectedValue } = props;
+    const { selectedValue, hoverValue } = props;
     const today = getTodayTime(value);
     const months = this.months();
     const { prefixCls, locale, contentRender, cellRender, disabledDate } = props;
+    const monthHover = this.$listeners.monthHover || noop;
 
     // 判断是范围模式还是单值模式
     const rangeMode = isRangeMode(selectedValue);
-    const rangeStart = getRangeStart(selectedValue);
-    const rangeEnd = getRangeEnd(selectedValue);
+
+    // 使用 hoverValue 进行范围预览（如果存在的话）
+    const rangeValue = hoverValue && hoverValue.length ? hoverValue : selectedValue;
+    const rangeStart = getRangeStart(rangeValue);
+    const rangeEnd = getRangeEnd(rangeValue);
+
+    // 选中值（用于显示实际选中的起始和结束）
+    const selectedStart = getRangeStart(selectedValue);
+    const selectedEnd = getRangeEnd(selectedValue);
 
     // 单值模式：只有当 selectedValue 存在且与当前面板年份相同时，才显示选中状态
     const hasSelectedValue = !rangeMode && selectedValue && selectedValue.year() === value.year();
@@ -125,7 +135,18 @@ const MonthTable = {
           disabled = disabledDate(testValue);
         }
 
-        // 判断当前月份是否在范围内
+        // 判断当前月份是否在选中范围内（使用实际选中值）
+        let isSelectedStart = false;
+        let isSelectedEnd = false;
+
+        if (rangeMode && selectedStart) {
+          isSelectedStart = selectedStart.year === currentYear && selectedStart.month === monthData.value;
+        }
+        if (rangeMode && selectedEnd) {
+          isSelectedEnd = selectedEnd.year === currentYear && selectedEnd.month === monthData.value;
+        }
+
+        // 判断当前月份是否在范围内（使用 rangeValue，可能是 hover 值）
         let isRangeStart = false;
         let isRangeEnd = false;
         let isInRange = false;
@@ -156,18 +177,34 @@ const MonthTable = {
           isInRange = compareWithStart > 0 && compareWithEnd < 0;
         }
 
+        // 判断是否为 hover 预览状态（有 hoverValue 时）
+        const isHoverRange = hoverValue && hoverValue.length > 0;
+
         const classNameMap = {
           [`${prefixCls}-cell`]: 1,
           [`${prefixCls}-cell-disabled`]: disabled,
           // 单值模式的选中状态
           [`${prefixCls}-selected-cell`]: monthData.value === selectedMonth,
-          // 范围模式的选中状态
-          [`${prefixCls}-selected-start-cell`]: isRangeStart,
-          [`${prefixCls}-selected-end-cell`]: isRangeEnd,
+          // 范围模式的选中状态（实际选中）
+          [`${prefixCls}-selected-start-cell`]: isSelectedStart,
+          [`${prefixCls}-selected-end-cell`]: isSelectedEnd,
+          // 范围背景（包括 hover 预览）
           [`${rootPrefixCls}-in-range-cell`]: isInRange || isRangeStart || isRangeEnd,
+          // hover 预览状态（仅当有 hoverValue 时才添加 hover 样式类）
+          [`${rootPrefixCls}-in-hover-range-cell`]: isHoverRange && (isInRange || isRangeStart || isRangeEnd),
           [`${prefixCls}-current-cell`]:
             today.year() === value.year() && monthData.value === today.month(),
         };
+
+        // hover 处理函数
+        const hoverHandler = () => {
+          if (disabled) {
+            return;
+          }
+          const hoverTime = value.clone().month(monthData.value);
+          monthHover(hoverTime);
+        };
+
         let cellEl;
         if (cellRender) {
           const currentValue = value.clone();
@@ -189,6 +226,7 @@ const MonthTable = {
             role="gridcell"
             key={monthData.value}
             onClick={disabled ? noop : () => this.chooseMonth(monthData.value)}
+            onMouseenter={hoverHandler}
             title={monthData.title}
             class={classNameMap}
           >
