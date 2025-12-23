@@ -1,6 +1,7 @@
 // Presets Panel Styles for RangePicker
 // 预设日期范围面板样式
 
+// 左侧面板模式样式
 .@{calendar-prefix-cls}-presets {
   display: flex;
   flex-direction: column;
@@ -32,6 +33,56 @@
       color: @primary-color;
       font-weight: 500;
       background: @primary-1;
+    }
+  }
+
+  // 底部按钮模式样式
+  &-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: @padding-xs;
+    padding: @padding-sm @padding-md;
+    border-top: @border-width-base @border-style-base @border-color-split;
+    background: @component-background;
+
+    &-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      padding: 0 @padding-sm;
+      font-size: @font-size-sm;
+      color: @text-color;
+      background: @background-color-light;
+      border: @border-width-base @border-style-base @border-color-base;
+      border-radius: @border-radius-sm;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+      user-select: none;
+
+      &:hover {
+        color: @primary-color;
+        border-color: @primary-color;
+        background: @primary-1;
+      }
+
+      &:active {
+        color: @primary-7;
+        border-color: @primary-7;
+      }
+
+      &-selected {
+        color: #fff;
+        background: @primary-color;
+        border-color: @primary-color;
+
+        &:hover {
+          color: #fff;
+          background: @primary-5;
+          border-color: @primary-5;
+        }
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 /**
  * PresetPanel - 预设日期范围面板组件
  * 用于显示快捷选择的预设日期范围
+ * 支持两种显示模式：panel（左侧面板）和 footer（底部按钮）
  */
 
 import PropTypes from '../_util/vue-types';
@@ -24,6 +25,13 @@ export default {
      * 选中的预设索引
      */
     selectedIndex: PropTypes.number.def(-1),
+
+    /**
+     * 显示模式
+     * - panel: 左侧面板模式（垂直列表）
+     * - footer: 底部模式（水平按钮）
+     */
+    mode: PropTypes.oneOf(['panel', 'footer']).def('footer'),
   },
 
   methods: {
@@ -64,39 +72,77 @@ export default {
     handleMouseLeave() {
       this.$emit('hover', null, null, -1);
     },
-  },
 
-  render() {
-    const { prefixCls, presets, selectedIndex } = this;
+    /**
+     * 渲染底部按钮模式
+     */
+    renderFooterMode() {
+      const { prefixCls, presets, selectedIndex } = this;
+      const footerCls = `${prefixCls}-presets-footer`;
 
-    if (!presets || presets.length === 0) {
-      return null;
-    }
-
-    const panelCls = `${prefixCls}-presets`;
-
-    return (
-      <div class={panelCls}>
-        <ul class={`${panelCls}-list`}>
+      return (
+        <div class={footerCls}>
           {presets.map((preset, index) => {
-            const itemCls = classNames(`${panelCls}-item`, {
-              [`${panelCls}-item-selected`]: index === selectedIndex,
+            const btnCls = classNames(`${footerCls}-btn`, {
+              [`${footerCls}-btn-selected`]: index === selectedIndex,
             });
 
             return (
-              <li
+              <span
                 key={index}
-                class={itemCls}
+                class={btnCls}
                 onClick={() => this.handleClick(preset, index)}
                 onMouseenter={() => this.handleMouseEnter(preset, index)}
                 onMouseleave={this.handleMouseLeave}
               >
                 {preset.label}
-              </li>
+              </span>
             );
           })}
-        </ul>
-      </div>
-    );
+        </div>
+      );
+    },
+
+    /**
+     * 渲染左侧面板模式
+     */
+    renderPanelMode() {
+      const { prefixCls, presets, selectedIndex } = this;
+      const panelCls = `${prefixCls}-presets`;
+
+      return (
+        <div class={panelCls}>
+          <ul class={`${panelCls}-list`}>
+            {presets.map((preset, index) => {
+              const itemCls = classNames(`${panelCls}-item`, {
+                [`${panelCls}-item-selected`]: index === selectedIndex,
+              });
+
+              return (
+                <li
+                  key={index}
+                  class={itemCls}
+                  onClick={() => this.handleClick(preset, index)}
+                  onMouseenter={() => this.handleMouseEnter(preset, index)}
+                  onMouseleave={this.handleMouseLeave}
+                >
+                  {preset.label}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      );
+    },
+  },
+
+  render() {
+    const { presets, mode } = this;
+
+    if (!presets || presets.length === 0) {
+      return null;
+    }
+
+    return mode === 'footer' ? this.renderFooterMode() : this.renderPanelMode();
   },
 };
