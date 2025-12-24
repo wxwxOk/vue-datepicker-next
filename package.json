@@ -1,6 +1,6 @@
 {
   "name": "@wangxinowo/vue-datepicker-next",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A powerful Vue 2.x DatePicker component based on Ant Design Vue",
   "main": "dist/vue-datepicker-next.min.js",
   "module": "dist/vue-datepicker-next.min.js",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wangxinowo/vue-datepicker-next.git"
+    "url": "https://github.com/wxwxOk/vue-datepicker-next.git"
   },
   "peerDependencies": {
     "vue": "^2.6.0"
