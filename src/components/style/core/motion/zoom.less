@@ -1,12 +1,13 @@
+// 使用 ant- 前缀避免全局样式污染
 .zoom-motion(@className, @keyframeName, @duration: @animation-duration-base) {
   .make-motion(@className, @keyframeName, @duration);
-  .@{className}-enter,
-  .@{className}-appear {
+  .ant-@{className}-enter,
+  .ant-@{className}-appear {
     transform: scale(0); // need this by yiminghe
     opacity: 0;
     animation-timing-function: @ease-out-circ;
   }
-  .@{className}-leave {
+  .ant-@{className}-leave {
     animation-timing-function: @ease-in-out-circ;
   }
 }

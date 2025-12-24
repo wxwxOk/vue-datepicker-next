@@ -9,7 +9,9 @@
   position: relative;
 }
 
-html {
+// 使用 CSS 变量代替全局 html 选择器，避免污染全局样式
+// 组件内部通过 :root 或局部变量使用
+:root {
   --antd-wave-shadow-color: @primary-color;
 }
 

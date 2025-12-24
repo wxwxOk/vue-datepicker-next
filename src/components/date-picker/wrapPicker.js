@@ -43,7 +43,7 @@ export default function wrapPicker(Picker, props, pickerType) {
   return {
     name: Picker.name,
     props: initDefaultProps(props, {
-      transitionName: 'slide-up',
+      transitionName: 'ant-slide-up',
       popupStyle: {},
       locale: {},
     }),
@@ -199,7 +199,7 @@ export default function wrapPicker(Picker, props, pickerType) {
             ...showTime,
             prefixCls: `${prefixCls}-time-picker`,
             placeholder: locale.timePickerLocale.placeholder,
-            transitionName: 'slide-up',
+            transitionName: 'ant-slide-up',
           },
           class: timePickerCls,
           on: {

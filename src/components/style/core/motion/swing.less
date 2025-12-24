@@ -1,12 +1,13 @@
+// 使用 ant- 前缀避免全局样式污染
 .swing-motion(@className, @keyframeName) {
-  .@{className}-enter,
-  .@{className}-appear {
+  .ant-@{className}-enter,
+  .ant-@{className}-appear {
     .motion-common();
 
     animation-play-state: paused;
   }
-  .@{className}-enter.@{className}-enter-active,
-  .@{className}-appear.@{className}-appear-active {
+  .ant-@{className}-enter.ant-@{className}-enter-active,
+  .ant-@{className}-appear.ant-@{className}-appear-active {
     animation-name: ~'@{keyframeName}In';
     animation-play-state: running;
   }

@@ -83,7 +83,7 @@ const TimePicker = {
     disabledSeconds: undefined,
     hideDisabledOptions: false,
     placement: 'bottomLeft',
-    transitionName: 'slide-up',
+    transitionName: 'ant-slide-up',
     focusOnOpen: true,
     allowClear: true,
   }),

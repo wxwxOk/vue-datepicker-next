@@ -18,7 +18,7 @@ export default () => ({
     'rightTop',
     'rightBottom',
   ]).def('top'),
-  transitionName: PropTypes.string.def('zoom-big-fast'),
+  transitionName: PropTypes.string.def('ant-zoom-big-fast'),
   // onVisibleChange: PropTypes.func,
   overlayStyle: PropTypes.object.def(() => ({})),
   overlayClassName: PropTypes.string,

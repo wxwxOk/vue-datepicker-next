@@ -1,11 +1,12 @@
+// 使用 ant- 前缀避免全局样式污染
 .fade-motion(@className, @keyframeName) {
   .make-motion(@className, @keyframeName);
-  .@{className}-enter,
-  .@{className}-appear {
+  .ant-@{className}-enter,
+  .ant-@{className}-appear {
     opacity: 0;
     animation-timing-function: linear;
   }
-  .@{className}-leave {
+  .ant-@{className}-leave {
     animation-timing-function: linear;
   }
 }
